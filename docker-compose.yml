@@ -1,19 +1,21 @@
 version: "3.9"
 services:
-  php:
-       image: php:8.1.6-apache
-       ports: 
-        - 80:80      
-       volumes:
-            - ./src:/var/www/html/       
-  db:
-    image: mariadb:10.6
+  php-env: 
+    build: .
+    volumes:
+      - ./src:/var/www/html
+    ports: 
+      - 9000:80    
+  mysql_db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: root    
+
 
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin:latest
     restart: always
     ports:
       - 8080:80
